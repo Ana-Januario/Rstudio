@@ -1,7 +1,8 @@
 # Rstudio
-Neste trabalho temos um pouco de análise exploratoria de dados, aplicamos algumas técnicas para categorização de dados e também criamos um modelo logístico. 
-Infelizmente o modelo não ficou tão bom, mas foi um otimo exercicio para fixação dos conceitos estatísticos que envolver a criação de modelos logísticos.
-A base de dados foi tirada do livro Hosmer, D.W., Lemeshow, S. and Sturdivant, R.X. (2013) Applied Logistic Regression, 3rd ed., New York: Wiley e está disponível no CRAN.
+
+Nesta secção temos alguns trabalhos realizados em Rstudio, que contemplam análise exploratoria de dados, técnicas para categorização de dados e também criação de modelos. 
+Geralmente utilizamos datasets que estão disponíveis no CRAN entretanto, no trabalho de regressão logistica eu carreguei o dataset num ficheiro CSV.
+Essa mesma base de dados está disponível no CRAN e está explicada no livro Hosmer, D.W., Lemeshow, S. and Sturdivant, R.X. (2013) Applied Logistic Regression, 3rd ed., New York: Wiley.
 Trata-se de um dataframe com 189 linhas e 11 variaveis:
 
 id-Código de Identificação
@@ -25,3 +26,7 @@ ui-Presença de irritabilidade uterina (1: Não, 2: Sim)
 ftv-Número de consultas médicas durante o primeiro trimestre (1: Nenhuma, 2: Uma, 3: Duas, etc.)
 
 bwt-Peso de nascimento registrado (gramas)
+
+Já o caso da regressao linear, eu chamei o dataset direto do CRAN.
+
+Em caso de intersse de explorar esses datasets, pode verificar em https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html
