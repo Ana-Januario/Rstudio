@@ -1,0 +1,112 @@
+### Exercicios análise exploratorio usando BD disponivel no CRAN
+
+library(fBasics)
+str(swiss)
+
+
+basicStats(swiss)
+
+basicStats(swiss$Fertility)
+
+#a media e a mediana são proximos, parece ter uma boa distribuição
+
+boxplot(swiss$Fertility, main= "Boxplot fertilidade Suíça") #Afinal tem alguns outliers
+
+grafico1<-hist(swiss$Fertility, main = "Fertilidade Suíça", ylab = "Frequencias")
+min(swiss$Fertility)
+seq(1,5,length=22)
+xajust<-seq(min(swiss$Fertility, na.rm=T),  
+            max(swiss$Fertility, na.rm=T),
+            length=50)
+yajust<-dnorm(xajust,
+              mean=mean(swiss$Fertility,na.rm=T),
+              sd=sd(swiss$Fertility,na.rm=T))
+hist(swiss$Fertility, freq = F, main = "Histograma fertilidade Suíça", ylab = "densidade", xlab=" Fertilidade")
+lines(xajust, yajust, col="red", lwd=2)
+
+#Até tem uma boa aparencia vamos checar a normalidade
+lillieTest(swiss$Fertility)
+shapiro.test(swiss$Fertility)
+#não se rejeita a normalidade
+
+#Correlação entre as variáveis
+
+varinteresse<- data.frame(swiss)
+varinteresse<-na.omit(varinteresse)
+Corvarinteresse<-round(cor(varinteresse, method = "pearson"),2)
+
+Corvarinteresse
+
+#Representação visual
+
+install.packages("ggcorrplot")
+library(ggcorrplot)
+
+# Correlação
+ggcorrplot(Corvarinteresse, hc.order = T, 
+           type = "full",show.legend = TRUE,
+           lab = TRUE, show.diag = T,
+           lab_size = 3, lab_col = "black",
+           method="square", outline.color = "black",
+           colors = c("red", "white", "blue"), tl.cex = 10,
+           title ="", legend.title = "Correlação", 
+           ggtheme=theme_bw, digits = 2)
+
+#conseguimos verificar que o fertilidade apresenta
+#correlação moderada e inversa com educação e examination
+
+###############################################################
+
+#Para verificar os fatores que podem explicar, ou formecer um modelo
+#da fertilidade na suíça podemos seguir dois caminho:
+#o primeiro é criar um modelo automático utilizando o metodo stepwise
+
+library(MASS)
+modfert1<-lm(Fertility~Agriculture+Examination+Education+Catholic+Infant.Mortality, data = swiss)
+step <- stepAIC(modfert1, direction="forward") #metodo de selecao das variaveis backward, forward, both com base no AIC
+step$anova
+anova(modfert1)
+summary(modfert1)
+
+#Segundo este metodo todas as variavies são importantes e ajudam 
+#a explicar a fertilidade em 67% (é pouco)
+
+#Vamos verificar se esse modelo cumpre os pressupostos 
+
+###VERIFICANDO OS RESIDUOS OBTIDOS PELO METODO STEPWISE
+residsw<-resid(modfert1) # residuos do Modelo 
+predsw<-fitted(modfert1) # Valores ajustados pelo modelo
+resid.stdsw <- rstandard(modfert1)
+
+library(nortest)
+# Histograma dos residuos
+hist(residsw)
+lillie.test(residsw) #admite-se a normalidade 
+qqnorm(residsw)
+qqline(residsw) #os pontos estão bem comportados
+ 
+library(car)
+##Independencia dos residuos
+# teste durbin.Watson 
+# de 1.5 < D <2.5 sao independentes
+durbinWatsonTest(modfert1)
+#P-valor = 0,01, pode-se admitir independencia dos resíduos
+#Mas é no limite!!
+
+library(lmtest)
+# Breusch- Pagan test
+bptest(modfert1)
+#Apresenta homocedasticidade
+
+#Existencia de Colinearidade/Multicolinearidade
+vif(modfert1) # variance inflation factors 
+sqrt(vif(modfert1)) > 2 # Se verdade existe multicolinearidade
+#não apresenta problemas demulticolinearidade
+
+#CONCLUSÃO: o modelo stepwise é um modelo que explica pouco a fertilidade, existem
+#fatores que não estão contemplados no dataset, entretanto,
+#o modelo proposto apresenta resíduos que cumprem os pressupostos 
+
+#O segundo metodo de criar o modelo é a mão, adicionando
+#e retirando variaveis individualmente.
+#Só optamos por este metodo em caso de necessidade
