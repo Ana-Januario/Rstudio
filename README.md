@@ -1,8 +1,8 @@
 # Rstudio
 
 Nesta secção temos alguns trabalhos realizados em Rstudio, que contemplam análise exploratoria de dados, técnicas para categorização de dados e também criação de modelos. 
-Geralmente utilizamos datasets que estão disponíveis no CRAN entretanto, no trabalho de regressão logistica eu carreguei o dataset num ficheiro CSV.
-Essa mesma base de dados está disponível no CRAN e está explicada no livro Hosmer, D.W., Lemeshow, S. and Sturdivant, R.X. (2013) Applied Logistic Regression, 3rd ed., New York: Wiley.
+Temos trabalhos aleatórios para praticar, e também, trabalhos da aula de analise categorica de dadosem que utilizamos datasets que estão disponíveis no CRAN.
+No trabalho de regressão logistica eu carreguei o dataset num ficheiro CSV conforme solicitado pelo docente da disciplina. Entretanto, essa mesma base de dados está disponível no CRAN e está explicada no livro Hosmer, D.W., Lemeshow, S. and Sturdivant, R.X. (2013) Applied Logistic Regression, 3rd ed., New York: Wiley.
 Trata-se de um dataframe com 189 linhas e 11 variaveis:
 
 id-Código de Identificação
